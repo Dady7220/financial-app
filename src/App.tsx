@@ -34,7 +34,7 @@ const Badge = ({ children, className, variant = "liquid" }: { children: React.Re
 );
 
 const SectionHeading = ({ children, className }: { children: React.ReactNode; className?: string }) => (
-  <h2 className={cn("text-4xl md:text-5xl lg:text-6xl font-heading italic text-white tracking-tight leading-[0.9]", className)}>
+  <h2 className={cn("text-4xl md:text-5xl lg:text-6xl font-heading text-white tracking-tight leading-[1.1]", className)}>
     {children}
   </h2>
 );
@@ -143,7 +143,7 @@ const DashboardMockup = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex flex-col">
-            <h4 className="text-base md:text-xl font-heading italic text-white">Dayom Alpha Terminal</h4>
+            <h4 className="text-base md:text-xl font-heading text-white">Dayom Alpha Terminal</h4>
             <p className="text-[9px] md:text-[10px] text-white/40">Financial Pair Bot Engine</p>
           </div>
           <div className="flex items-center justify-between sm:justify-end gap-3">
@@ -324,7 +324,7 @@ const Hero = () => {
 
         <BlurText 
           text="Master the Markets with Dayom Alpha" 
-          className="text-6xl md:text-7xl lg:text-[5.5rem] font-heading italic text-white leading-[0.8] tracking-[-4px] mt-6"
+          className="text-6xl md:text-7xl lg:text-[5.5rem] font-heading text-white leading-[1.1] tracking-tight mt-6"
           delay={100}
         />
 
@@ -379,7 +379,7 @@ const Hero = () => {
           <Badge variant="liquid">Trusted by the teams behind</Badge>
           <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
             {["Nile Capital", "Juba Bank", "Alpha Quant", "Equator Fund", "Sahara Trading"].map((partner) => (
-              <span key={partner} className="text-2xl md:text-3xl font-heading italic text-white">
+              <span key={partner} className="text-2xl md:text-3xl font-heading text-white">
                 {partner}
               </span>
             ))}
@@ -430,7 +430,7 @@ const FeaturesChess = () => {
         {/* Row 1 */}
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1 space-y-6">
-            <h3 className="text-3xl md:text-4xl font-heading italic text-white">Advanced Financial Pair Bot Technology</h3>
+            <h3 className="text-3xl md:text-4xl font-heading text-white">Advanced Financial Pair Bot Technology</h3>
             <p className="text-white/60 font-body font-light leading-relaxed">
               Leverage institutional-grade algorithmic trading to manage risk and maximize returns. Our 
               Financial Pair Bot provides the backend power you need to scale your investment strategies globally.
@@ -447,7 +447,7 @@ const FeaturesChess = () => {
         {/* Row 2 */}
         <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
           <div className="flex-1 space-y-6">
-            <h3 className="text-3xl md:text-4xl font-heading italic text-white">AI-Driven Market Analysis</h3>
+            <h3 className="text-3xl md:text-4xl font-heading text-white">AI-Driven Market Analysis</h3>
             <p className="text-white/60 font-body font-light leading-relaxed">
               Step into the future of trading. We build intelligent systems that captivate users 
               and drive results through predictive analytics and state-of-the-art market rendering.
@@ -518,7 +518,7 @@ const FeaturesGrid = () => {
             <div className="liquid-glass-strong rounded-full w-12 h-12 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
               <card.icon className="w-5 h-5 text-white" />
             </div>
-            <h4 className="text-xl font-heading italic text-white mb-3">{card.title}</h4>
+            <h4 className="text-xl font-heading text-white mb-3">{card.title}</h4>
             <p className="text-white/60 font-body font-light text-sm leading-relaxed">
               {card.description}
             </p>
@@ -581,7 +581,7 @@ const Team = () => {
                 }}
               />
             </div>
-            <h4 className="text-2xl font-heading italic text-white mb-1">{member.name}</h4>
+            <h4 className="text-2xl font-heading text-white mb-1">{member.name}</h4>
             <p className="text-white/40 text-xs uppercase tracking-widest mb-4">{member.role}</p>
             <p className="text-white/60 font-body font-light text-sm leading-relaxed">
               {member.bio}
@@ -617,7 +617,7 @@ const Stats = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
             {stats.map((stat, i) => (
               <div key={i} className="space-y-2">
-                <div className="text-4xl md:text-5xl lg:text-6xl font-heading italic text-white">
+                <div className="text-4xl md:text-5xl lg:text-6xl font-heading text-white">
                   {stat.value}
                 </div>
                 <div className="text-white/60 font-body font-light text-sm uppercase tracking-widest">
@@ -788,7 +788,7 @@ const Contact = () => {
                 <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mb-4">
                   <Zap className="w-8 h-8 text-emerald-400" />
                 </div>
-                <h3 className="text-2xl font-heading italic text-white">Message Received!</h3>
+                <h3 className="text-2xl font-heading text-white">Message Received!</h3>
                 <p className="text-white/60 font-body font-light text-sm max-w-[240px]">
                   Thanks for reaching out. Our team will get back to you within 24 hours.
                 </p>

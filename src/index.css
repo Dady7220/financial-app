@@ -1,9 +1,9 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
 
 @theme {
-  --font-heading: "Instrument Serif", serif;
-  --font-body: "Barlow", sans-serif;
+  --font-heading: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
   
   --color-background: hsl(213 45% 67%);
   --color-foreground: hsl(0 0% 100%);
@@ -70,10 +70,10 @@
 
 @layer base {
   body {
-    @apply bg-black text-white font-body font-light;
+    @apply bg-black text-white font-body;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading italic tracking-tight leading-[0.9];
+    @apply font-heading tracking-tight leading-[1.1];
   }
 }
