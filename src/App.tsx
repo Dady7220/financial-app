@@ -548,6 +548,12 @@ const Team = () => {
       role: "Software Engineer & Founding Engineer",
       image: "https://lh3.googleusercontent.com/d/1QP88UIPazngrqnrnl0HykQxfPhjmFIuF",
       bio: "Expert in building scalable, high-performance web applications."
+    },
+    {
+      name: "Kai Ramkel",
+      role: "Marketing Lead & SEO Strategist",
+      image: "https://lh3.googleusercontent.com/d/1ItTHFC_biIeYZh_RVm5Bid6XZZFKHq8a",
+      bio: "Expert in digital growth, SEO optimization, and strategic market positioning."
     }
   ];
 
@@ -558,7 +564,7 @@ const Team = () => {
         <SectionHeading className="mt-4">The minds behind the tech.</SectionHeading>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {members.map((member, i) => (
           <motion.div 
             key={i}
