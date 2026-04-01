@@ -141,17 +141,17 @@ const DashboardMockup = () => {
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-6 flex flex-col gap-4 md:gap-6 overflow-hidden relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex flex-col">
-            <h4 className="text-lg md:text-xl font-heading italic text-white">Dayom Alpha Terminal</h4>
-            <p className="text-[10px] text-white/40">Financial Pair Bot Engine</p>
+            <h4 className="text-base md:text-xl font-heading italic text-white">Dayom Alpha Terminal</h4>
+            <p className="text-[9px] md:text-[10px] text-white/40">Financial Pair Bot Engine</p>
           </div>
-          <div className="flex items-center gap-2 md:gap-3">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-              <span className="text-[10px] text-white/40">BTC/USD</span>
-              <span className="text-[10px] text-emerald-400 font-mono">$64,231.40</span>
+          <div className="flex items-center justify-between sm:justify-end gap-3">
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+              <span className="text-[9px] md:text-[10px] text-white/40">BTC/USD</span>
+              <span className="text-[9px] md:text-[10px] text-emerald-400 font-mono">$64,231.40</span>
             </div>
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/20 to-white/5 border border-white/10" />
+            <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-white/20 to-white/5 border border-white/10" />
           </div>
         </div>
 
@@ -164,11 +164,11 @@ const DashboardMockup = () => {
           ].map((stat, i) => (
             <div key={i} className={cn(
               "p-3 md:p-4 rounded-xl bg-white/[0.03] border border-white/5 flex flex-col gap-1",
-              i === 2 && "hidden md:flex" // Hide 3rd stat on small mobile
+              i === 2 && "hidden sm:flex" // Hide 3rd stat on very small mobile
             )}>
-              <span className="text-[9px] uppercase tracking-wider text-white/30">{stat.label}</span>
-              <span className={cn("text-sm md:text-lg font-bold tracking-tight", stat.color)}>{stat.value}</span>
-              <span className="text-[8px] text-white/20">{stat.sub}</span>
+              <span className="text-[8px] md:text-[9px] uppercase tracking-wider text-white/30">{stat.label}</span>
+              <span className={cn("text-xs md:text-lg font-bold tracking-tight", stat.color)}>{stat.value}</span>
+              <span className="text-[7px] md:text-[8px] text-white/20">{stat.sub}</span>
             </div>
           ))}
         </div>
@@ -438,7 +438,7 @@ const FeaturesChess = () => {
             <Button variant="liquid-strong">Explore the Bot</Button>
           </div>
           <div className="flex-1 w-full">
-            <div className="liquid-glass rounded-2xl overflow-hidden aspect-video relative border border-white/10 shadow-2xl">
+            <div className="liquid-glass rounded-2xl overflow-hidden aspect-[4/5] sm:aspect-video relative border border-white/10 shadow-2xl">
               <DashboardMockup />
             </div>
           </div>
