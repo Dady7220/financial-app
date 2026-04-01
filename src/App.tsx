@@ -13,7 +13,19 @@ import {
   Send,
   MessageSquare,
   Youtube,
-  Video
+  Video,
+  Search,
+  Bell,
+  Wallet,
+  Star,
+  Eye,
+  Users,
+  LifeBuoy,
+  HelpCircle,
+  LogOut,
+  LayoutDashboard,
+  FileText,
+  BellRing
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import React, { useState, useEffect } from "react";
@@ -100,158 +112,181 @@ const Logo = ({ className }: { className?: string }) => (
 );
 
 const DashboardMockup = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const sidebarItems = [
+    { category: "Portfolio", items: [
+      { icon: BarChart3, label: "Performance", active: true },
+      { icon: Zap, label: "Live Trades" },
+      { icon: Shield, label: "Risk Management" },
+      { icon: Globe, label: "Global Macro" },
+    ]}
+  ];
+
   return (
-    <div className="w-full h-full bg-[#050505]/90 rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative flex flex-col md:flex-row font-body backdrop-blur-2xl group">
-      {/* Sidebar - Hidden on mobile, visible on tablet/desktop */}
-      <div className="w-48 border-r border-white/5 p-4 flex flex-col gap-6 bg-black/40 backdrop-blur-md hidden lg:flex">
-        <div className="flex items-center gap-2 px-2">
-          <div className="w-6 h-6 rounded bg-white flex items-center justify-center">
-            <BarChart3 className="w-4 h-4 text-black" />
+    <div className="w-full h-full bg-[#050505] overflow-hidden relative flex flex-col lg:flex-row font-body group">
+      {/* Mobile Sidebar Toggle */}
+      <div className="lg:hidden flex items-center justify-between p-4 sm:p-5 border-b border-white/5 bg-black/40 backdrop-blur-md relative z-50">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-white flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+            <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
           </div>
-          <span className="text-white font-bold text-xs tracking-tight">Dayom Alpha</span>
+          <span className="text-white font-heading text-lg sm:text-xl tracking-tight">Dayom Alpha</span>
+        </div>
+        <button 
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/5 flex items-center justify-center text-white active:scale-95 transition-transform border border-white/10"
+        >
+          {isSidebarOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
+        </button>
+      </div>
+
+      {/* Mobile Sidebar Backdrop */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="lg:hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-40"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Sidebar */}
+      <motion.div 
+        initial={false}
+        animate={{ 
+          x: isSidebarOpen ? 0 : (typeof window !== 'undefined' && window.innerWidth < 1024 ? -320 : 0),
+        }}
+        transition={{ type: "spring", damping: 28, stiffness: 220 }}
+        className={cn(
+          "w-[260px] sm:w-[280px] lg:w-[240px] xl:w-[260px] border-r border-white/5 p-6 sm:p-8 flex flex-col gap-8 sm:gap-10 bg-[#080808] lg:flex overflow-y-auto absolute lg:relative inset-y-0 left-0 z-50 lg:z-auto h-full",
+          !isSidebarOpen && "pointer-events-none lg:pointer-events-auto"
+        )}
+      >
+        <div className="flex items-center gap-3 px-2 hidden lg:flex">
+          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+            <BarChart3 className="w-6 h-6 text-black" />
+          </div>
+          <span className="text-white font-heading text-xl tracking-tight">Dayom Alpha</span>
         </div>
         
-        <div className="space-y-1">
-          <div className="text-[9px] uppercase tracking-widest text-white/20 px-2 mb-2">Portfolio</div>
-          {[
-            { icon: BarChart3, label: "Performance", active: true },
-            { icon: Zap, label: "Live Trades" },
-            { icon: Shield, label: "Risk Management" },
-            { icon: Globe, label: "Global Macro" },
-          ].map((item) => (
-            <div key={item.label} className={cn(
-              "flex items-center gap-3 px-2 py-1.5 rounded-lg text-[10px] transition-colors cursor-pointer",
-              item.active ? "bg-white/10 text-white" : "text-white/40 hover:bg-white/5 hover:text-white"
-            )}>
-              <item.icon className="w-3 h-3" />
-              {item.label}
+        <div className="flex-1 space-y-8 sm:space-y-10 mt-16 lg:mt-4">
+          {sidebarItems.map((cat) => (
+            <div key={cat.category} className="space-y-4 sm:space-y-6">
+              <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-white/20 px-2 font-bold">{cat.category}</div>
+              <div className="space-y-1.5 sm:space-y-2">
+                {cat.items.map((item) => (
+                  <div 
+                    key={item.label} 
+                    onClick={() => setIsSidebarOpen(false)}
+                    className={cn(
+                      "flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl text-[13px] sm:text-[14px] transition-all cursor-pointer group/item active:scale-[0.98]",
+                      item.active ? "bg-[#1a1a1a] text-white shadow-xl" : "text-white/30 hover:bg-white/5 hover:text-white"
+                    )}
+                  >
+                    <item.icon className={cn("w-4 h-4 sm:w-5 h-5", item.active ? "text-white" : "text-white/20 group-hover/item:text-white")} />
+                    <span className="font-medium">{item.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-auto p-3 rounded-xl bg-white/5 border border-white/10">
-          <div className="text-[9px] text-white/40 uppercase mb-1">Fund Status</div>
-          <div className="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Operational
+        {/* Fund Status */}
+        <div className="mt-auto p-4 sm:p-5 rounded-2xl sm:rounded-[2rem] bg-[#111111] border border-white/5">
+          <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-white/20 mb-2 sm:mb-3 font-bold">Fund Status</div>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#00ff9d] shadow-[0_0_10px_rgba(0,255,157,0.5)] animate-pulse" />
+            <span className="text-[#00ff9d] text-sm sm:text-base font-semibold tracking-tight">Operational</span>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Main Content */}
-      <div className="flex-1 p-4 md:p-6 flex flex-col gap-4 md:gap-6 overflow-hidden relative z-10">
+      <div className="flex-1 p-5 sm:p-8 md:p-10 lg:p-12 flex flex-col gap-6 sm:gap-10 overflow-y-auto relative z-10 scrollbar-hide bg-[#050505]">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex flex-col">
-            <h4 className="text-base md:text-xl font-heading text-white">Dayom Alpha Terminal</h4>
-            <p className="text-[9px] md:text-[10px] text-white/40">Financial Pair Bot Engine</p>
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 sm:gap-8">
+          <div className="space-y-1 sm:space-y-2">
+            <h4 className="text-2xl sm:text-4xl lg:text-5xl font-heading text-white tracking-tight leading-[1] sm:leading-[0.9] max-w-xs">Dayom Alpha Terminal</h4>
+            <p className="text-white/30 text-xs sm:text-base font-body font-light tracking-wide">Financial Pair Bot Engine</p>
           </div>
-          <div className="flex items-center justify-between sm:justify-end gap-3">
-            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-              <span className="text-[9px] md:text-[10px] text-white/40">BTC/USD</span>
-              <span className="text-[9px] md:text-[10px] text-emerald-400 font-mono">$64,231.40</span>
+          
+          <div className="flex items-center gap-3 sm:gap-5">
+            <div className="bg-[#111111] border border-white/5 rounded-full px-4 sm:px-6 py-2 sm:py-3 flex items-center gap-3 sm:gap-4 shadow-inner">
+              <span className="text-[9px] sm:text-[11px] font-bold text-white/30 tracking-[0.2em] uppercase">BTC/USD</span>
+              <span className="text-[#00ff9d] text-sm sm:text-lg font-mono font-bold">$64,231.40</span>
             </div>
-            <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-white/20 to-white/5 border border-white/10" />
+            <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-white/10 to-transparent p-[1px]">
+              <div className="w-full h-full rounded-full bg-[#111111] flex items-center justify-center overflow-hidden border border-white/5 shadow-2xl">
+                <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-[#1a1a1a] shadow-inner" />
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          {[
-            { label: "Total Profit", value: "+$124,502", sub: "+12.4%", color: "text-emerald-400" },
-            { label: "Win Rate", value: "74.2%", sub: "Last 30d", color: "text-white" },
-            { label: "Active Trades", value: "12", sub: "Risk: Low", color: "text-cyan-400" },
-          ].map((stat, i) => (
-            <div key={i} className={cn(
-              "p-3 md:p-4 rounded-xl bg-white/[0.03] border border-white/5 flex flex-col gap-1",
-              i === 2 && "hidden sm:flex" // Hide 3rd stat on very small mobile
-            )}>
-              <span className="text-[8px] md:text-[9px] uppercase tracking-wider text-white/30">{stat.label}</span>
-              <span className={cn("text-xs md:text-lg font-bold tracking-tight", stat.color)}>{stat.value}</span>
-              <span className="text-[7px] md:text-[8px] text-white/20">{stat.sub}</span>
+        <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+          {/* Total Profit */}
+          <div className="p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] bg-[#0d0d0d] border border-white/5 space-y-4 sm:space-y-6 hover:bg-[#111111] transition-all duration-500 group/card shadow-xl">
+            <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.25em] text-white/20 font-bold">Total Profit</div>
+            <div className="space-y-1 sm:space-y-2">
+              <div className="text-2xl sm:text-4xl lg:text-5xl font-heading text-[#00ff9d] tracking-tight">+$124,502</div>
+              <div className="text-[10px] sm:text-sm text-white/10 font-medium">+12.4%</div>
             </div>
-          ))}
+          </div>
+
+          {/* Win Rate */}
+          <div className="p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] bg-[#0d0d0d] border border-white/5 space-y-4 sm:space-y-6 hover:bg-[#111111] transition-all duration-500 group/card shadow-xl">
+            <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.25em] text-white/20 font-bold">Win Rate</div>
+            <div className="space-y-1 sm:space-y-2">
+              <div className="text-2xl sm:text-4xl lg:text-5xl font-heading text-white tracking-tight">74.2%</div>
+              <div className="text-[10px] sm:text-sm text-white/10 font-medium">Last 30d</div>
+            </div>
+          </div>
+
+          {/* Active Trades */}
+          <div className="p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] bg-[#0d0d0d] border border-white/5 space-y-4 sm:space-y-6 hover:bg-[#111111] transition-all duration-500 group/card shadow-xl xs:col-span-2 xl:col-span-1">
+            <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.25em] text-white/20 font-bold">Active Trades</div>
+            <div className="space-y-1 sm:space-y-2">
+              <div className="text-2xl sm:text-4xl lg:text-5xl font-heading text-[#00e5ff] tracking-tight">12</div>
+              <div className="text-[10px] sm:text-sm text-white/10 font-medium">Risk: Low</div>
+            </div>
+          </div>
         </div>
 
-        {/* Mini Chart Area */}
-        <div className="h-24 md:h-32 w-full bg-white/[0.02] rounded-xl border border-white/5 p-4 relative overflow-hidden">
-          <div className="absolute inset-0 flex items-end">
-            <svg viewBox="0 0 100 40" className="w-full h-full preserve-3d">
-              <path 
-                d="M0 35 Q 10 30, 20 32 T 40 25 T 60 28 T 80 15 T 100 10" 
-                fill="none" 
-                stroke="url(#gradient)" 
-                strokeWidth="1.5"
-                className="drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]"
-              />
+        {/* Equity Curve */}
+        <div className="p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] bg-[#0d0d0d] border border-white/5 flex flex-col gap-6 sm:gap-8 shadow-xl">
+          <div className="flex items-center justify-between">
+            <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.25em] text-white/20 font-bold">Equity Curve</div>
+          </div>
+          <div className="h-24 sm:h-32 w-full relative group/chart">
+            <svg className="w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="none">
               <defs>
-                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#06b6d4" />
-                  <stop offset="100%" stopColor="#10b981" />
+                <linearGradient id="chartGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#00ff9d" stopOpacity="0.1" />
+                  <stop offset="50%" stopColor="#00ff9d" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="#00ff9d" stopOpacity="1" />
                 </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
               </defs>
+              <path 
+                d="M0,85 C40,88 80,95 120,75 C160,55 200,85 240,70 C280,55 320,20 400,15" 
+                fill="none" 
+                stroke="url(#chartGradient)" 
+                strokeWidth="3" 
+                strokeLinecap="round"
+                filter="url(#glow)"
+                className="transition-all duration-1000"
+              />
             </svg>
           </div>
-          <div className="relative z-10 flex flex-col">
-            <span className="text-[9px] text-white/40 uppercase">Equity Curve</span>
-            <span className="text-xs font-bold text-white">Steady Alpha</span>
-          </div>
         </div>
-
-        {/* Recent Wins Table */}
-        <div className="flex-1 flex flex-col gap-3 overflow-hidden">
-          <div className="flex items-center justify-between">
-            <div className="text-[10px] font-medium text-white/80 uppercase tracking-widest">Recent Wins</div>
-            <div className="text-[9px] text-white/40 hover:text-white cursor-pointer transition-colors">History</div>
-          </div>
-          
-          <div className="flex-1 border border-white/5 rounded-xl bg-white/[0.01] overflow-hidden">
-            <table className="w-full text-left text-[9px] md:text-[10px]">
-              <thead>
-                <tr className="border-b border-white/5 text-white/20 uppercase tracking-wider">
-                  <th className="px-3 md:px-4 py-2 md:py-3 font-medium">Asset</th>
-                  <th className="px-3 md:px-4 py-2 md:py-3 font-medium">Result</th>
-                  <th className="px-3 md:px-4 py-2 md:py-3 font-medium hidden sm:table-cell">Strategy</th>
-                  <th className="px-3 md:px-4 py-2 md:py-3 font-medium">Profit</th>
-                </tr>
-              </thead>
-              <tbody className="text-white/50">
-                {[
-                  { asset: "XAU/USD", result: "Win", color: "text-emerald-400", strategy: "Mean Reversion", profit: "+$4,230" },
-                  { asset: "TSLA", result: "Win", color: "text-emerald-400", strategy: "Momentum", profit: "+$1,850" },
-                  { asset: "EUR/GBP", result: "Win", color: "text-emerald-400", strategy: "Arbitrage", profit: "+$920" },
-                  { asset: "BTC/USD", result: "Win", color: "text-emerald-400", strategy: "Trend", profit: "+$12,400" },
-                ].map((row, i) => (
-                  <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors">
-                    <td className="px-3 md:px-4 py-2 md:py-3 font-bold text-white">{row.asset}</td>
-                    <td className="px-3 md:px-4 py-2 md:py-3">
-                      <span className={cn("px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[8px]", row.color)}>
-                        {row.result}
-                      </span>
-                    </td>
-                    <td className="px-3 md:px-4 py-2 md:py-3 hidden sm:table-cell">{row.strategy}</td>
-                    <td className="px-3 md:px-4 py-2 md:py-3 font-mono text-emerald-400">{row.profit}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      {/* Decorative Background (Hero Theme - Organic/Floral Tech) */}
-      <div className="absolute inset-0 -z-10 opacity-20 group-hover:opacity-30 transition-opacity duration-700">
-        <img 
-          src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=80&w=1200" 
-          className="w-full h-full object-cover blur-[4px] scale-110 group-hover:scale-100 transition-transform duration-1000"
-          alt="Dashboard Background"
-          referrerPolicy="no-referrer"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-black/90 to-black/60" />
-        
-        {/* Animated Glows */}
-        <div className="absolute top-1/4 right-0 w-64 h-64 bg-cyan-500/10 blur-[120px] rounded-full animate-pulse" />
-        <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-pink-500/10 blur-[120px] rounded-full animate-pulse delay-700" />
       </div>
     </div>
   );
@@ -294,7 +329,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative h-[1000px] w-full bg-black overflow-hidden flex flex-col items-center pt-[150px]">
+    <section className="relative min-h-screen lg:h-[1000px] w-full bg-black overflow-hidden flex flex-col items-center pt-32 md:pt-40 lg:pt-[150px]">
       {/* Background Video */}
       <video 
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4"
@@ -374,7 +409,7 @@ const Hero = () => {
       </div>
 
       {/* Partners Bar at Hero Bottom */}
-      <div className="mt-auto pb-12 pt-16 w-full max-w-7xl px-6">
+      <div className="mt-auto pb-12 pt-20 w-full max-w-7xl px-6 relative z-10">
         <div className="flex flex-col items-center gap-8">
           <Badge variant="liquid">Trusted by the teams behind</Badge>
           <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
@@ -428,17 +463,19 @@ const FeaturesChess = () => {
 
       <div className="space-y-32">
         {/* Row 1 */}
-        <div className="flex flex-col lg:flex-row items-center gap-16">
-          <div className="flex-1 space-y-6">
-            <h3 className="text-3xl md:text-4xl font-heading text-white">Advanced Financial Pair Bot Technology</h3>
-            <p className="text-white/60 font-body font-light leading-relaxed">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+          <div className="flex-1 space-y-6 text-center lg:text-left">
+            <h3 className="text-3xl md:text-4xl lg:text-5xl font-heading text-white leading-tight">Advanced Financial Pair Bot Technology</h3>
+            <p className="text-white/60 font-body font-light leading-relaxed max-w-2xl mx-auto lg:mx-0">
               Leverage institutional-grade algorithmic trading to manage risk and maximize returns. Our 
               Financial Pair Bot provides the backend power you need to scale your investment strategies globally.
             </p>
-            <Button variant="liquid-strong">Explore the Bot</Button>
+            <div className="flex justify-center lg:justify-start">
+              <Button variant="liquid-strong">Explore the Bot</Button>
+            </div>
           </div>
-          <div className="flex-1 w-full">
-            <div className="liquid-glass rounded-2xl overflow-hidden aspect-[4/5] sm:aspect-video relative border border-white/10 shadow-2xl">
+          <div className="flex-1 w-full max-w-3xl mx-auto">
+            <div className="liquid-glass rounded-3xl overflow-hidden aspect-[4/5] xs:aspect-square sm:aspect-video lg:aspect-[4/3] xl:aspect-video relative border border-white/10 shadow-2xl">
               <DashboardMockup />
             </div>
           </div>
@@ -449,23 +486,28 @@ const FeaturesChess = () => {
           <div className="flex-1 space-y-6">
             <h3 className="text-3xl md:text-4xl font-heading text-white">AI-Driven Market Analysis</h3>
             <p className="text-white/60 font-body font-light leading-relaxed">
-              Step into the future of trading. We build intelligent systems that captivate users 
-              and drive results through predictive analytics and state-of-the-art market rendering.
+              Our proprietary AI models process millions of data points across global financial pairs. 
+              We provide institutional-grade predictive analytics that identify high-probability 
+              setups before they materialize on standard charts.
             </p>
-            <Button variant="liquid-strong">See AI Demos</Button>
+            <Button variant="liquid-strong">View Analytics</Button>
           </div>
           <div className="flex-1 w-full">
-            <div className="liquid-glass rounded-2xl overflow-hidden aspect-video relative border border-white/10 shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200" 
-                alt="Financial Trading and AI Analysis" 
-                className="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "https://picsum.photos/seed/trading/1200/800";
-                }}
+            <div className="liquid-glass rounded-2xl overflow-hidden aspect-video relative border border-white/10 shadow-2xl group/video">
+              <video 
+                src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260217_030345_246c0224-10a4-422c-b324-070b7c0eceda.mp4"
+                className="w-full h-full object-cover opacity-90 group-hover/video:scale-105 transition-transform duration-700"
+                autoPlay
+                loop
+                muted
+                playsInline
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+              <div className="absolute inset-0 flex items-center justify-center p-8 text-center pointer-events-none">
+                <p className="text-white/90 text-sm md:text-base font-body font-light tracking-wider max-w-[80%] leading-relaxed drop-shadow-lg">
+                  Empowering businesses with data, AI and modern technology solutions
+                </p>
+              </div>
             </div>
           </div>
         </div>
