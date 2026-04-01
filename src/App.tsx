@@ -80,13 +80,13 @@ const Button = ({
 // --- Sections ---
 
 const Logo = ({ className }: { className?: string }) => (
-  <div className={cn("flex items-center gap-3", className)}>
-    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center overflow-hidden shadow-2xl">
+  <div className={cn("flex items-center gap-2 sm:gap-3", className)}>
+    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white flex items-center justify-center overflow-hidden shadow-2xl">
       <svg 
         viewBox="0 0 24 24" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg" 
-        className="w-6 h-6"
+        className="w-5 h-5 sm:w-6 sm:h-6"
       >
         <path 
           d="M4 4H12C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20H4V4Z" 
@@ -105,201 +105,42 @@ const Logo = ({ className }: { className?: string }) => (
       </svg>
     </div>
     <div className="flex flex-col leading-none">
-      <span className="font-body font-bold text-white text-xl tracking-tight">Dayom</span>
-      <span className="font-body font-light text-white/50 text-[9px] uppercase tracking-[0.3em]">Technologies</span>
+      <span className="font-body font-bold text-white text-lg sm:text-xl tracking-tight">Dayom</span>
+      <span className="font-body font-light text-white/50 text-[7px] sm:text-[9px] uppercase tracking-[0.3em]">Technologies</span>
     </div>
   </div>
 );
 
 const DashboardMockup = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const sidebarItems = [
-    { category: "Portfolio", items: [
-      { icon: BarChart3, label: "Performance", active: true },
-      { icon: Zap, label: "Live Trades" },
-      { icon: Shield, label: "Risk Management" },
-      { icon: Globe, label: "Global Macro" },
-    ]}
-  ];
-
   return (
-    <div className="w-full h-full bg-[#050505] overflow-hidden relative flex flex-col lg:flex-row font-body group">
-      {/* Mobile Sidebar Toggle */}
-      <div className="lg:hidden flex items-center justify-between p-4 sm:p-5 border-b border-white/5 bg-black/40 backdrop-blur-md relative z-50">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-white flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-            <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
-          </div>
-          <span className="text-white font-heading text-lg sm:text-xl tracking-tight">Dayom Alpha</span>
-        </div>
-        <button 
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/5 flex items-center justify-center text-white active:scale-95 transition-transform border border-white/10"
-        >
-          {isSidebarOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
-        </button>
-      </div>
-
-      {/* Mobile Sidebar Backdrop */}
-      <AnimatePresence>
-        {isSidebarOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsSidebarOpen(false)}
-            className="lg:hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-40"
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Sidebar */}
-      <motion.div 
-        initial={false}
-        animate={{ 
-          x: isSidebarOpen ? 0 : (typeof window !== 'undefined' && window.innerWidth < 1024 ? -320 : 0),
-        }}
-        transition={{ type: "spring", damping: 28, stiffness: 220 }}
-        className={cn(
-          "w-[260px] sm:w-[280px] lg:w-[240px] xl:w-[260px] border-r border-white/5 p-6 sm:p-8 flex flex-col gap-8 sm:gap-10 bg-[#080808] lg:flex overflow-y-auto absolute lg:relative inset-y-0 left-0 z-50 lg:z-auto h-full",
-          !isSidebarOpen && "pointer-events-none lg:pointer-events-auto"
-        )}
-      >
-        <div className="flex items-center gap-3 px-2 hidden lg:flex">
-          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-            <BarChart3 className="w-6 h-6 text-black" />
-          </div>
-          <span className="text-white font-heading text-xl tracking-tight">Dayom Alpha</span>
-        </div>
-        
-        <div className="flex-1 space-y-8 sm:space-y-10 mt-16 lg:mt-4">
-          {sidebarItems.map((cat) => (
-            <div key={cat.category} className="space-y-4 sm:space-y-6">
-              <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-white/20 px-2 font-bold">{cat.category}</div>
-              <div className="space-y-1.5 sm:space-y-2">
-                {cat.items.map((item) => (
-                  <div 
-                    key={item.label} 
-                    onClick={() => setIsSidebarOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl text-[13px] sm:text-[14px] transition-all cursor-pointer group/item active:scale-[0.98]",
-                      item.active ? "bg-[#1a1a1a] text-white shadow-xl" : "text-white/30 hover:bg-white/5 hover:text-white"
-                    )}
-                  >
-                    <item.icon className={cn("w-4 h-4 sm:w-5 h-5", item.active ? "text-white" : "text-white/20 group-hover/item:text-white")} />
-                    <span className="font-medium">{item.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Fund Status */}
-        <div className="mt-auto p-4 sm:p-5 rounded-2xl sm:rounded-[2rem] bg-[#111111] border border-white/5">
-          <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-white/20 mb-2 sm:mb-3 font-bold">Fund Status</div>
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#00ff9d] shadow-[0_0_10px_rgba(0,255,157,0.5)] animate-pulse" />
-            <span className="text-[#00ff9d] text-sm sm:text-base font-semibold tracking-tight">Operational</span>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Main Content */}
-      <div className="flex-1 p-5 sm:p-8 md:p-10 lg:p-12 flex flex-col gap-6 sm:gap-10 overflow-y-auto relative z-10 scrollbar-hide bg-[#050505]">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 sm:gap-8">
-          <div className="space-y-1 sm:space-y-2">
-            <h4 className="text-2xl sm:text-4xl lg:text-5xl font-heading text-white tracking-tight leading-[1] sm:leading-[0.9] max-w-xs">Dayom Alpha Terminal</h4>
-            <p className="text-white/30 text-xs sm:text-base font-body font-light tracking-wide">Financial Pair Bot Engine</p>
-          </div>
-          
-          <div className="flex items-center gap-3 sm:gap-5">
-            <div className="bg-[#111111] border border-white/5 rounded-full px-4 sm:px-6 py-2 sm:py-3 flex items-center gap-3 sm:gap-4 shadow-inner">
-              <span className="text-[9px] sm:text-[11px] font-bold text-white/30 tracking-[0.2em] uppercase">BTC/USD</span>
-              <span className="text-[#00ff9d] text-sm sm:text-lg font-mono font-bold">$64,231.40</span>
-            </div>
-            <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-white/10 to-transparent p-[1px]">
-              <div className="w-full h-full rounded-full bg-[#111111] flex items-center justify-center overflow-hidden border border-white/5 shadow-2xl">
-                <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-[#1a1a1a] shadow-inner" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-          {/* Total Profit */}
-          <div className="p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] bg-[#0d0d0d] border border-white/5 space-y-4 sm:space-y-6 hover:bg-[#111111] transition-all duration-500 group/card shadow-xl">
-            <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.25em] text-white/20 font-bold">Total Profit</div>
-            <div className="space-y-1 sm:space-y-2">
-              <div className="text-2xl sm:text-4xl lg:text-5xl font-heading text-[#00ff9d] tracking-tight">+$124,502</div>
-              <div className="text-[10px] sm:text-sm text-white/10 font-medium">+12.4%</div>
-            </div>
-          </div>
-
-          {/* Win Rate */}
-          <div className="p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] bg-[#0d0d0d] border border-white/5 space-y-4 sm:space-y-6 hover:bg-[#111111] transition-all duration-500 group/card shadow-xl">
-            <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.25em] text-white/20 font-bold">Win Rate</div>
-            <div className="space-y-1 sm:space-y-2">
-              <div className="text-2xl sm:text-4xl lg:text-5xl font-heading text-white tracking-tight">74.2%</div>
-              <div className="text-[10px] sm:text-sm text-white/10 font-medium">Last 30d</div>
-            </div>
-          </div>
-
-          {/* Active Trades */}
-          <div className="p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] bg-[#0d0d0d] border border-white/5 space-y-4 sm:space-y-6 hover:bg-[#111111] transition-all duration-500 group/card shadow-xl xs:col-span-2 xl:col-span-1">
-            <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.25em] text-white/20 font-bold">Active Trades</div>
-            <div className="space-y-1 sm:space-y-2">
-              <div className="text-2xl sm:text-4xl lg:text-5xl font-heading text-[#00e5ff] tracking-tight">12</div>
-              <div className="text-[10px] sm:text-sm text-white/10 font-medium">Risk: Low</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Equity Curve */}
-        <div className="p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] bg-[#0d0d0d] border border-white/5 flex flex-col gap-6 sm:gap-8 shadow-xl">
-          <div className="flex items-center justify-between">
-            <div className="text-[9px] sm:text-[11px] uppercase tracking-[0.25em] text-white/20 font-bold">Equity Curve</div>
-          </div>
-          <div className="h-24 sm:h-32 w-full relative group/chart">
-            <svg className="w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="chartGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#00ff9d" stopOpacity="0.1" />
-                  <stop offset="50%" stopColor="#00ff9d" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#00ff9d" stopOpacity="1" />
-                </linearGradient>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-              </defs>
-              <path 
-                d="M0,85 C40,88 80,95 120,75 C160,55 200,85 240,70 C280,55 320,20 400,15" 
-                fill="none" 
-                stroke="url(#chartGradient)" 
-                strokeWidth="3" 
-                strokeLinecap="round"
-                filter="url(#glow)"
-                className="transition-all duration-1000"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
+    <div className="w-full h-full bg-[#050505] rounded-2xl overflow-hidden relative border border-white/10 shadow-2xl">
+      <img 
+        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
+        alt="Dayom Alpha Dashboard" 
+        className="w-full h-full object-cover opacity-90"
+        referrerPolicy="no-referrer"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
     </div>
   );
 };
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const navLinks = [
+    { name: "Home", href: "#" },
+    { name: "Services", href: "#services" },
+    { name: "Team", href: "#team" },
+    { name: "Contact", href: "#contact" }
+  ];
 
   return (
     <nav className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8">
@@ -310,19 +151,56 @@ const Navbar = () => {
         {/* Nav Links Pill */}
         <div className="liquid-glass rounded-full px-2 py-1.5 flex items-center gap-1">
           <div className="hidden md:flex items-center gap-1 px-4">
-            {["Home", "Services", "Team", "Contact"].map((link) => (
+            {navLinks.map((link) => (
               <a 
-                key={link} 
-                href={`#${link.toLowerCase()}`} 
+                key={link.name} 
+                href={link.href} 
                 className="text-sm font-medium text-white/70 hover:text-white px-3 py-1 transition-colors"
               >
-                {link}
+                {link.name}
               </a>
             ))}
           </div>
-          <Button variant="solid" icon={ArrowUpRight}>Get Started</Button>
+          
+          <div className="flex items-center gap-1">
+            <Button variant="solid" icon={ArrowUpRight} className="hidden sm:flex">Get Started</Button>
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="md:hidden absolute top-20 left-4 right-4 liquid-glass rounded-3xl p-6 border border-white/10 shadow-2xl z-50"
+          >
+            <div className="flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <a 
+                  key={link.name} 
+                  href={link.href} 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-lg font-medium text-white/70 hover:text-white px-4 py-2 rounded-xl hover:bg-white/5 transition-all"
+                >
+                  {link.name}
+                </a>
+              ))}
+              <hr className="border-white/5 my-2" />
+              <Button variant="solid" icon={ArrowUpRight} className="w-full py-4">Get Started</Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
@@ -875,8 +753,8 @@ const Footer = () => {
             </p>
           </div>
           <div className="flex items-center gap-8">
-            {["Privacy", "Terms", "Contact"].map((link) => (
-              <a key={link} href="#" className="text-white/40 hover:text-white text-xs font-body uppercase tracking-widest transition-colors">
+            {["Privacy", "Terms", "Team", "Contact"].map((link) => (
+              <a key={link} href={link === "Privacy" || link === "Terms" ? "#" : `#${link.toLowerCase()}`} className="text-white/40 hover:text-white text-xs font-body uppercase tracking-widest transition-colors">
                 {link}
               </a>
             ))}
